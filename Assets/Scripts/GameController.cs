@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject hazard;
+    public Vector3 spawnValues;
+
     void Start()
     {
-        
+        SpawnWaves();
     }
 
-    // Update is called once per frame
-    void Update()
+    void SpawnWaves()
     {
-        
+        Vector3 spawnPosition = new Vector3(Random.Range(spawnValues.x, spawnValues.x),spawnValues.y,spawnValues.z);
+        Quaternion spawnRotation = Quaternion.identity; // no rotation, rotation is set on the asteroid script itself
+        Instantiate(hazard, spawnPosition, spawnRotation);
     }
+
+    
 }
