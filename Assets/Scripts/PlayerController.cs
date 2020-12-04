@@ -24,19 +24,30 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody playerRB;
 
+    private SFXManager sfxManager;
+
+    void Awake()
+    {
+        sfxManager = (GameObject.Find("SFXManager").GetComponent<SFXManager>());
+        playerRB = GetComponent<Rigidbody>();
+    }
+
+
     void Start()
     {
-        playerRB = GetComponent<Rigidbody>();
+        
     }
 
     void Update()
     {
+        //shoot
+
         if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             GameObject bulletClone = Instantiate(bullet, bulletSpawn.position, bulletSpawn.rotation);
             bulletClone.transform.SetParent(bulletManager);
-            //GameObject bulletClone = Instantiate(bullet, bulletSpawn.position, bulletSpawn.rotation) as GameObject;
+            sfxManager.PlayerShoot();            
         }
     }
 
