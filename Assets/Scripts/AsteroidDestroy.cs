@@ -16,23 +16,33 @@ public class AsteroidDestroy : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {   
-        Instantiate(explosion, this.transform.position, this.transform.rotation);
-
+        
+                     
         if (other.tag == "Player")
         {
+            Instantiate(explosion, this.transform.position, this.transform.rotation);
             Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
             Destroy(this.gameObject);
             sfxManager.PlayerExplosion();
+            Destroy(other.gameObject);
         }
+                  
 
         if (other.tag == "Bullet")
         {
+            Instantiate(explosion, this.transform.position, this.transform.rotation);
             Destroy(this.gameObject);
             Debug.Log("killed by bullet");
-            sfxManager.AsteroidExplosion();            
+            sfxManager.AsteroidExplosion();
+            Destroy(other.gameObject);
         }
-        
-        Destroy(other.gameObject);
+
+        if (other.tag == "Boundary")
+        {
+            Destroy(this.gameObject);
+        }
+
+
 
 
     }
