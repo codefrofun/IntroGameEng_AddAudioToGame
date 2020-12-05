@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AsteroidDestroy : MonoBehaviour
 {
     public GameObject explosion;
-    public GameObject playerExplosion;
+    //public GameObject playerExplosion;    
 
     private SFXManager sfxManager;
+    private GameManager gameManager;
+    private GameObject player;
 
     void Awake()
     {
-        sfxManager = (GameObject.Find("SFXManager").GetComponent<SFXManager>() );
+        sfxManager = ( GameObject.Find("SFXManager").GetComponent<SFXManager>() );
+        gameManager = ( GameObject.Find("GameManager").GetComponent<GameManager>() );
+        player = GameObject.Find("Player");
     }
 
     void OnTriggerEnter(Collider other)
@@ -21,15 +26,14 @@ public class AsteroidDestroy : MonoBehaviour
         if (other.tag == "Player")
         {
             Instantiate(explosion, this.transform.position, this.transform.rotation);
-            Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
-            Destroy(this.gameObject);
-            sfxManager.PlayerExplosion();
-            Destroy(other.gameObject);
+            sfxManager.AsteroidExplosion();
+            Destroy(this.gameObject);            
         }
                   
 
         if (other.tag == "Bullet")
         {
+            gameManager.score = gameManager.score += 10;
             Instantiate(explosion, this.transform.position, this.transform.rotation);
             Destroy(this.gameObject);
             Debug.Log("killed by bullet");

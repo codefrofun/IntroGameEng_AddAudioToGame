@@ -16,15 +16,25 @@ public class PlayerController : MonoBehaviour
     public Boundary boundary;
     public Transform bulletManager;
 
+    public Material[] material;
+    public GameObject shipMesh;
+
+
+    Renderer shipRenderer;
+
+    //public GameObject asteroidExplosion;
+    public GameObject playerExplosion;
+
     public GameObject bullet;
     public Transform bulletSpawn;
     public float fireRate;
-
+        
     private float nextFire;
 
     private Rigidbody playerRB;
 
     private SFXManager sfxManager;
+    public GameManager gameManager;
 
     void Awake()
     {
@@ -32,10 +42,11 @@ public class PlayerController : MonoBehaviour
         playerRB = GetComponent<Rigidbody>();
     }
 
-
-    void Start()
+    private void Start()
     {
-        
+        shipRenderer = shipMesh.GetComponent<Renderer>();
+        shipRenderer.enabled = true;
+        shipRenderer.sharedMaterial = material[0];
     }
 
     void Update()
@@ -67,14 +78,43 @@ public class PlayerController : MonoBehaviour
             Mathf.Clamp(playerRB.position.x, boundary.xMin, boundary.xMax),
             0.0f,
             Mathf.Clamp(playerRB.position.z, boundary.zMin, boundary.zMax)
-        );
-
-        //playerRB.rotation = Quaternion.Euler(0.0f, 0.0f, playerRB.velocity.x * -playerTiltAngle) ;
+        );        
 
         playerRB.rotation = Quaternion.Euler(Vector3.forward * moveHorizontal * -playerTiltAngle);
+    }
 
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Hazard")
+        {
+            gameManager.shield -= 1;
+            if (gameManager.shield > 0)
+            {
+                StartCoroutine(Flasher());
+            }
+        }
+    }
+
+    IEnumerator Flasher()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            shipRenderer.sharedMaterial = material[1];
+            yield return new WaitForSeconds(0.05f);
+            shipRenderer.sharedMaterial = material[0];
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+    
+
+    public void PlayerDestroy()
+    {
+        gameObject.SetActive(false);
+        Instantiate(playerExplosion, this.transform.position, this.transform.rotation);
+        sfxManager.PlayerExplosion();        
 
     }
 
-   
+
 }

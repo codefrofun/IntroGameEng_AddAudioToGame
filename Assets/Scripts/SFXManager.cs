@@ -3,47 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SFXManager : MonoBehaviour
-{    
+{
     public AudioClip playerShoot;
     public AudioClip asteroidExplosion;
+    public AudioClip playerDamage;
     public AudioClip playerExplosion;
-    public AudioClip BgMusic;
+    public AudioClip BgMusicGameplay;
+    public AudioClip BgMusicTitleScreen;
 
-    private AudioSource audioSource;
-    
+    private AudioSource SFXaudioSource;
 
+    private AudioSource BgMusicAudioSource;
 
-    public void Start()
+    public void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
-
-        GameObject BgMusicAudioSource = this.transform.Find("BgMusic").gameObject;
-        BgMusicAudioSource.GetComponent<AudioSource>().clip = BgMusic;
-        BgMusicAudioSource.GetComponent<AudioSource>().Play();
+        SFXaudioSource = GetComponent<AudioSource>();
+        //GameObject child = this.transform.Find("BgMusic").gameObject;
+        BgMusicAudioSource = gameObject.transform.Find("BgMusic").gameObject.GetComponent<AudioSource>();
 
 
+        
+        //BgMusicAudioSource.GetComponent<AudioSource>().Play();       
+    }
 
-       
+
+
+    //called in the PlayerController Script
+    public void PlayerShoot()
+    {
+        SFXaudioSource.PlayOneShot(playerShoot);
     }
 
     //called in the PlayerController Script
-    public void PlayerShoot() 
+    public void PlayerDamage()
     {
-        audioSource.PlayOneShot(playerShoot);        
+        SFXaudioSource.PlayOneShot(playerDamage);
+    }
+
+    //called in the PlayerController Script
+    public void PlayerExplosion()
+    {
+        SFXaudioSource.PlayOneShot(playerExplosion);
     }
 
     //called in the AsteroidDestroy script
-    public void AsteroidExplosion() 
+    public void AsteroidExplosion()
     {
-        audioSource.PlayOneShot(asteroidExplosion);        
+        SFXaudioSource.PlayOneShot(asteroidExplosion);
     }
 
     //called in the AsteroidDestroy script
-    public void PlayerExplosion() 
+    public void BGMusicMainMenu()
     {
-        audioSource.PlayOneShot(playerExplosion);
+        BgMusicAudioSource.clip = BgMusicTitleScreen;
+        BgMusicAudioSource.Play();
     }
 
+    public void BGMusicGameplay()
+    {
+        BgMusicAudioSource.GetComponent<AudioSource>().clip = BgMusicGameplay;
+        BgMusicAudioSource.Play();
 
-
+    }
 }
