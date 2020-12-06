@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public SFXManager sfxManager;
     public PlayerController playerController;
-    
+
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI gameOverScoreText;
     public int score  = 0;
 
     public TextMeshProUGUI shieldText;
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
     public GameObject GameplayUI;
     public GameObject PausedMenuUI;
     public GameObject GameOverUI;
+
+    private GameObject asteroidSpawner;
 
     private bool gameOver;
     private enum GameState { MainMenu, Gameplay, GameOver, Paused }
@@ -58,16 +61,14 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
         shieldText.text = shield.ToString();
 
-        if (shield <= 0)
-        {
-            gameOver = true;
+        if (shield < 0)
+        {  
+            gameOver = true;            
         }        
 
         switch (gameState)
         {
-            case GameState.MainMenu:
-
-                
+            case GameState.MainMenu:                
 
                 MainMenuUI.SetActive(true);
                 GameplayUI.SetActive(false);
@@ -90,10 +91,16 @@ public class GameManager : MonoBehaviour
                 {
                     playerController.PlayerDestroy();
                     gameState = GameState.GameOver;
+                    gameOverScoreText.text = score.ToString();
+                    asteroidSpawner = GameObject.Find("AsteroidSpawner");
+                    asteroidSpawner.SetActive(false);                    
                 }
                 break;
 
             case GameState.GameOver:
+
+                
+
                 MainMenuUI.SetActive(false);
                 GameplayUI.SetActive(false);
                 PausedMenuUI.SetActive(false);
@@ -123,10 +130,12 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        gameState = GameState.Gameplay;
+        shield = 3;
+        score = 0;
         sfxManager.BGMusicGameplay();
         SceneManager.LoadScene("Gameplay");
-        player.SetActive(true);
-        gameState = GameState.Gameplay;
+        player.SetActive(true);        
         gameOver = false;
     }
 

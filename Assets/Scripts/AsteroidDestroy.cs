@@ -36,7 +36,7 @@ public class AsteroidDestroy : MonoBehaviour
             gameManager.score = gameManager.score += 10;
             Instantiate(explosion, this.transform.position, this.transform.rotation);
             Destroy(this.gameObject);
-            Debug.Log("killed by bullet");
+            //Debug.Log("killed by bullet");
             sfxManager.AsteroidExplosion();
             Destroy(other.gameObject);
         }

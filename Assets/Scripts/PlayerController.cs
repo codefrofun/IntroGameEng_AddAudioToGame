@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public GameObject shipMesh;
 
 
-    Renderer shipRenderer;
+    public Renderer shipRenderer;
 
     //public GameObject asteroidExplosion;
     public GameObject playerExplosion;
@@ -61,8 +61,7 @@ public class PlayerController : MonoBehaviour
             sfxManager.PlayerShoot();            
         }
     }
-
-
+    
     void FixedUpdate()
     {
         //movement
@@ -89,7 +88,7 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Hazard")
         {
             gameManager.shield -= 1;
-            if (gameManager.shield > 0)
+            if (gameManager.shield > -1)
             {
                 StartCoroutine(Flasher());
             }
@@ -112,9 +111,11 @@ public class PlayerController : MonoBehaviour
     {
         gameObject.SetActive(false);
         Instantiate(playerExplosion, this.transform.position, this.transform.rotation);
-        sfxManager.PlayerExplosion();        
-
+        sfxManager.PlayerExplosion();
+        shipRenderer.sharedMaterial = material[0];
     }
+
+    
 
 
 }
