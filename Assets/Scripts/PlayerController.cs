@@ -90,6 +90,7 @@ public class PlayerController : MonoBehaviour
             gameManager.shield -= 1;
             if (gameManager.shield > -1)
             {
+                sfxManager.PlayerDamage();
                 StartCoroutine(Flasher());
             }
         }
