@@ -97,9 +97,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
 
-            case GameState.GameOver:
-
-                
+            case GameState.GameOver:               
 
                 MainMenuUI.SetActive(false);
                 GameplayUI.SetActive(false);
@@ -142,6 +140,7 @@ public class GameManager : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        sfxManager.BGMusicMainMenu();
         gameState = GameState.MainMenu;
         gameOver = false;
     }
