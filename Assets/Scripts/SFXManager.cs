@@ -52,7 +52,7 @@ public class SFXManager : MonoBehaviour
         SFXaudioSource.PlayOneShot(asteroidExplosion);
     }
 
-    //called in the AsteroidDestroy script
+    
     public void BGMusicMainMenu()
     {
         BgMusicAudioSource.clip = BgMusicTitleScreen;
