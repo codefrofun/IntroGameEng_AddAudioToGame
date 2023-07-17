@@ -25,9 +25,21 @@ public class AsteroidDestroy : MonoBehaviour
                      
         if (other.tag == "Player")
         {
-            Instantiate(explosion, this.transform.position, this.transform.rotation);
-            sfxManager.AsteroidExplosion();
-            Destroy(this.gameObject);            
+            if (gameManager.shield >= 1)
+            {
+                Instantiate(explosion, this.transform.position, this.transform.rotation);
+                sfxManager.AsteroidExplosion();
+                Destroy(this.gameObject);
+                
+            }
+            // Do not play asteroid explosion sound when player is out of shields
+            // This allows the player explosion to be front and center
+            // and not be over written by the asteroid explosion.
+            else if (gameManager.shield <= 0)
+            {
+                Instantiate(explosion, this.transform.position, this.transform.rotation);                
+                Destroy(this.gameObject);                
+            }
         }
                   
 
