@@ -56,12 +56,14 @@ public class SFXManager : MonoBehaviour
     public void BGMusicMainMenu()
     {
         BgMusicAudioSource.clip = BgMusicTitleScreen;
+        BgMusicAudioSource.loop = true;
         BgMusicAudioSource.Play();
     }
 
     public void BGMusicGameplay()
     {
         BgMusicAudioSource.GetComponent<AudioSource>().clip = BgMusicGameplay;
+        BgMusicAudioSource.loop = true;
         BgMusicAudioSource.Play();
 
     }
